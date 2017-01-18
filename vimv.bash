@@ -38,7 +38,7 @@ END_OF_HEADER
 
 paste -- <((echo "${oldfn}"))   \
          <((echo "${newfn}"))   \
-     | sed -e 's/^/mv -ni ;/'   \
+     | sed -e 's/^/mv -nv ;/'   \
      | column -s ';' -t         \
      | tr -d '\t'               \
      >> "${tempsh}"
