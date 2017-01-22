@@ -13,12 +13,15 @@ s2hms() {
   for bt in BAT*/ 
   do 
     if cd ${bt} ; then
-      { 
+      typeset st= cp=
+      {
         st=$(<status)
         cp=$(<capacity)
         : ${st:=Error} ${cp:=Error} 
+      } 2>/dev/null
 
-        declare -i en=0 ef=0 ed=0
+      typeset -i en= ef= ed=
+      { 
         if [[ -r charge_now ]]; then
           en=$(<charge_now)
           ef=$(<charge_full)
@@ -28,30 +31,34 @@ s2hms() {
           ef=$(<energy_full)
           ed=$(<energy_full_design)
         fi
+      } 2>/dev/null
 
-        declare -i er=0
+      typeset -i er=
+      {
         if [[ -r power_now ]]; then
-          declare -i er=$(<power_now)
+          er=$(<power_now)
         elif [[ -r current_now ]]; then
-          declare -i er=$(<current_now)
+          er=$(<current_now)
         fi
+      } 2>/dev/null
 
-        declare -i te=0
+      typeset -i te=
+      {
         if [[ $st = "Charging" ]]; then
-          declare -i te=$((ef - en))
+          te=$((ef - en))
         elif [[ $st = "Discharging" ]]; then
-          declare -i te=$((en))
+          te=$((en))
         fi
         : $(( (te < ef) || (te = 0) ))
       } 2>/dev/null
 
-      if ((en * ef * er * te == 0)); then
+      if [[ 0 -eq $((en*ef*er*te)) ]] ; then
         printf '%s : %s%% [%s]\n' ${bt%/} ${cp} ${st}
       else
         : $(( (ed > ef) || (ed = ef) ))
         : $(( cp = (en * 100) / ef ))
         : $(( dp = (ef * 100) / ed ))
-        declare -i ts=$(( (3600 * te) / er))
+        typeset -i ts=$(( (3600 * te) / er))
         th="$(s2hms $ts)"
         printf '%s : %d%% [%s] (%s) {%d%%}\n' ${bt%/} ${cp} ${st} ${th} ${dp}
       fi
