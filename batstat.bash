@@ -3,11 +3,12 @@
 s2hms() {
   local -i hh mm ss=${1:-0}
   : $(( (ss > 0) || (ss *= -1) ))
-  : $(( (hh = ss / 3600) && (ss %= 3600) ))
-  : $(( (mm = ss /   60) && (ss %=   60) ))
+  : $(( hh = ss / 3600 , ss %= 3600 ))
+  : $(( mm = ss /   60 , ss %=   60 ))
   printf '%02d:%02d:%02d' ${hh} ${mm} ${ss}
 }
 
+# main()
 {
   cd /sys/class/power_supply
   for bt in BAT*/ 
@@ -52,7 +53,7 @@ s2hms() {
         : $(( (te < ef) || (te = 0) ))
       } 2>/dev/null
 
-      if [[ 0 -eq $((en*ef*er*te)) ]] ; then
+      if [[ 0 -eq $((en * ef * er * te)) ]] ; then
         printf '%s : %s%% [%s]\n' ${bt%/} ${cp} ${st}
       else
         : $(( (ed > ef) || (ed = ef) ))
