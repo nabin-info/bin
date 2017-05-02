@@ -1,0 +1,3 @@
+* tr2fw.c -- use bit-shifts for clarity
+* tr2fw.bash -- use bit-shifts to generate raw utf-8 and eliminate sed
+* create testing framework
