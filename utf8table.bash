@@ -1,4 +1,7 @@
 #!/bin/bash
+# Nearly all of this script was taken from stack-overflow
+# Isn't that fast_chr something?
+
 declare -i uni0=${1:-0x2500}
 declare -i uniN=${2:-0x2600}
 
