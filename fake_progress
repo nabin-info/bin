@@ -1,0 +1,49 @@
+#!/bin/bash
+_p0="$(printf "\u00A0")" ; p0 () { printf "${_p0}" ; }
+_p1="$(printf "\u258F")" ; p1 () { printf "${_p1}" ; }
+_p2="$(printf "\u258E")" ; p2 () { printf "${_p2}" ; }
+_p3="$(printf "\u258D")" ; p3 () { printf "${_p3}" ; }
+_p4="$(printf "\u258C")" ; p4 () { printf "${_p4}" ; }
+_p5="$(printf "\u258B")" ; p5 () { printf "${_p5}" ; }
+_p6="$(printf "\u258A")" ; p6 () { printf "${_p6}" ; }
+_p7="$(printf "\u2589")" ; p7 () { printf "${_p7}" ; }
+_p8="$(printf "\u2588")" ; p8 () { printf "${_p8}" ; }
+
+_left="$(tput cub1 || printf "\b")" ; left () { printf "${_left}" ; }
+_hide="$(tput civis || printf "")"  ; hide () { printf "${_hide}" ; }
+_show="$(tput cvvis || printf "")"  ; show () { printf "${_show}" ; }
+
+char () { 
+	p=${1:-0}
+	if (( p == 0 )) ; then p0 
+	elif (( p <  14 )) ; then p0
+	elif (( p <  29 )) ; then p1
+	elif (( p <  44 )) ; then p2
+	elif (( p <  59 )) ; then p3
+	elif (( p <  74 )) ; then p5
+	elif (( p <  89 )) ; then p6
+	elif (( p < 100 )) ; then p7
+	else printf ""
+	fi
+}
+
+# main()
+{
+	hide
+	printf "\n"
+        for t in {1..60}
+        do
+		for i in {1..10} 
+		do
+			for j in {1..10} 
+			do 
+				char $((i * j))
+				left
+			done
+			sleep 1
+		done
+		p8 ; p8
+	done
+	printf "\n"
+	show
+}
