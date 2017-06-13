@@ -1,0 +1,15 @@
+#!/bin/bash
+sep=$'\u2044'  
+cwd="$(pwd)"
+src="$(cd "${1:-.}"; pwd)" ; 
+dst="$(cd "${2:-$1}"; pwd)" ;
+
+bash -c '⁄(){ln -LPT "$S/$1" "$D/{$1//\//⁄}";}; '
+
+{ rmdir ... ; mkdir ... ; cd ... ; } >/dev/null 2>&1 || exit 1
+find .. -xdev -path ../... -prune -o -type f -print 0 \
+  | while IFS= read -r -d '' f ; do ln -LPT "$f" "$N" ; done
+
+
+# { rmdir ... ; mkdir ... ; cd ... ; } >/dev/null 2>&1 && find .. -xdev -path ../... -prune -o -type f -exec /bin/bash -c ' N="${1#../}" ; N="${N//\//⁄}" ; ln -LPT "$1" "$N" ' '{}' '{}' \;
+ls -l 
